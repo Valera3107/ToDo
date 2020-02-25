@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 @Data
 @ToString(of = {"id", "name"})
-public class Task implements Essence {
+public class Task {
 
   @Id
   @GeneratedValue
@@ -37,12 +37,4 @@ public class Task implements Essence {
   @Column
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
   private LocalDateTime finishTask;
-
-  public void clone(Task task) {
-    this.name = task.getName();
-    this.description = task.getDescription();
-    this.importance = task.getImportance();
-    this.finishTask = task.getFinishTask();
-    this.status = task.getStatus();
-  }
 }

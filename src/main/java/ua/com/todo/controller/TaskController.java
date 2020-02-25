@@ -1,33 +1,26 @@
 package ua.com.todo.controller;
 
+import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.BindingResult;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ua.com.todo.dto.TaskCreateDto;
 import ua.com.todo.dto.TaskDto;
-import ua.com.todo.model.Essence;
 import ua.com.todo.model.Task;
 import ua.com.todo.service.TaskService;
-import ua.com.todo.model.ErrorMessage;
 
 import javax.validation.Valid;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/task")
+@AllArgsConstructor
 public class TaskController {
 
   private final TaskService taskServiceImpl;
-
   private final ModelMapper mapper;
-
-  public TaskController(TaskService taskService, ModelMapper mapper) {
-    this.taskServiceImpl = taskService;
-    this.mapper = mapper;
-  }
 
   @GetMapping
   public List<TaskDto> list() {
@@ -46,13 +39,9 @@ public class TaskController {
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  public List<? extends Essence> save(@RequestBody @Valid TaskDto taskDto, BindingResult bindingResult) {
-    if (bindingResult.hasErrors()) {
-      return getErrorList(bindingResult);
-    } else {
-      taskServiceImpl.save(convertToEntity(taskDto));
-    }
-    return taskServiceImpl.getAll().stream().map(this::convertToDto).collect(Collectors.toList());
+  public ResponseEntity<List<TaskDto>> save(@RequestBody @Valid TaskCreateDto taskDto) {
+    taskServiceImpl.save(convertToCreateEntity(taskDto));
+    return ResponseEntity.ok(taskServiceImpl.getAll().stream().map(this::convertToDto).collect(Collectors.toList()));
   }
 
   @GetMapping("/statistic/{date}/{num}")
@@ -61,13 +50,9 @@ public class TaskController {
   }
 
   @PutMapping("/{id}")
-  public List<? extends Essence> update(@PathVariable Long id, @RequestBody @Valid TaskDto taskDto, BindingResult bindingResult) {
-    if (bindingResult.hasErrors()) {
-      return getErrorList(bindingResult);
-    } else {
-      Task task = convertToEntity(taskDto);
-      return taskServiceImpl.update(task, id).stream().map(this::convertToDto).collect(Collectors.toList());
-    }
+  public List<TaskDto> update(@PathVariable Long id, @RequestBody @Valid TaskCreateDto taskDto) {
+    Task task = convertToCreateEntity(taskDto);
+    return taskServiceImpl.update(task, id).stream().map(this::convertToDto).collect(Collectors.toList());
   }
 
   @PutMapping("/{id}/{status}")
@@ -82,16 +67,12 @@ public class TaskController {
     return taskServiceImpl.getAll().stream().map(this::convertToDto).collect(Collectors.toList());
   }
 
-  private List<? extends Essence> getErrorList(BindingResult bindingResult) {
-    Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
-    return errors.entrySet().stream().map(e -> new ErrorMessage(new Date(), e.getKey(), e.getValue())).collect(Collectors.toList());
-  }
-
   private TaskDto convertToDto(Task task) {
     return mapper.map(task, TaskDto.class);
   }
 
-  private Task convertToEntity(TaskDto taskDto) {
-    return mapper.map(taskDto, Task.class);
+  private Task convertToCreateEntity(TaskCreateDto taskCreateDto) {
+    return mapper.map(taskCreateDto, Task.class);
   }
+
 }

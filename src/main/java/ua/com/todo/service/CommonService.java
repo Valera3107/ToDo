@@ -6,7 +6,7 @@ import java.util.List;
 
 @Repository
 public interface CommonService<T, I> {
-  void save(T object);
+  T save(T object);
 
   List<T> update(T object, I id);
 

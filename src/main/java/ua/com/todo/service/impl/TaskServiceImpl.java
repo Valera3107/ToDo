@@ -1,5 +1,6 @@
 package ua.com.todo.service.impl;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ua.com.todo.model.StatisticDate;
 import ua.com.todo.model.Status;
@@ -14,18 +15,15 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class TaskServiceImpl implements TaskService {
 
   private final TaskRepository taskRepository;
 
-  public TaskServiceImpl(TaskRepository taskRepository) {
-    this.taskRepository = taskRepository;
-  }
-
-  public void save(Task task) {
+  public Task save(Task task) {
     task.setStartTask(LocalDateTime.now());
     task.setStatus(Status.NEW);
-    taskRepository.save(task);
+    return taskRepository.save(task);
   }
 
   public List<Task> getAll() {
@@ -38,12 +36,13 @@ public class TaskServiceImpl implements TaskService {
 
   public Task getById(Long id) {
     Optional<Task> taskFromDB = taskRepository.findById(id);
-    return taskFromDB.orElseGet(() -> new Task("No name", "No any task with such id", 0));
+    return taskFromDB.orElseThrow(() -> new IllegalArgumentException("Task with such id doesn't exist!"));
   }
 
   public List<Task> update(Task task, Long taskId) {
     Task taskFromDB = getById(taskId);
-    taskFromDB.clone(task);
+    taskFromDB.setName(task.getName());
+    taskFromDB.setDescription(task.getDescription());
     taskRepository.save(taskFromDB);
     return getAll();
   }

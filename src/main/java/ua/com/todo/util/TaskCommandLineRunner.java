@@ -1,18 +1,16 @@
 package ua.com.todo.util;
 
+import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import ua.com.todo.model.Task;
 import ua.com.todo.service.TaskService;
 
 @Component
+@AllArgsConstructor
 public class TaskCommandLineRunner implements CommandLineRunner {
 
   private final TaskService taskService;
-
-  public TaskCommandLineRunner(TaskService taskService) {
-    this.taskService = taskService;
-  }
 
   @Override
   public void run(String... args) {
