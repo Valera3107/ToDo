@@ -1,11 +1,11 @@
-package ua.com.todo.todo.service.impl;
+package ua.com.todo.service.impl;
 
 import org.springframework.stereotype.Service;
-import ua.com.todo.todo.model.StatisticDate;
-import ua.com.todo.todo.model.Status;
-import ua.com.todo.todo.model.Task;
-import ua.com.todo.todo.repository.TaskRepository;
-import ua.com.todo.todo.service.TaskService;
+import ua.com.todo.model.StatisticDate;
+import ua.com.todo.model.Status;
+import ua.com.todo.model.Task;
+import ua.com.todo.service.TaskService;
+import ua.com.todo.repository.TaskRepository;
 
 import java.time.LocalDateTime;
 import java.util.Collections;

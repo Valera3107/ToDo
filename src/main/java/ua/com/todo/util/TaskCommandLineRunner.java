@@ -1,9 +1,9 @@
-package ua.com.todo.todo.util;
+package ua.com.todo.util;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import ua.com.todo.todo.model.Task;
-import ua.com.todo.todo.service.TaskService;
+import ua.com.todo.model.Task;
+import ua.com.todo.service.TaskService;
 
 @Component
 public class TaskCommandLineRunner implements CommandLineRunner {

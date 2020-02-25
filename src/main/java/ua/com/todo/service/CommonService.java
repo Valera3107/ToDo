@@ -1,4 +1,4 @@
-package ua.com.todo.todo.service;
+package ua.com.todo.service;
 
 import org.springframework.stereotype.Repository;
 

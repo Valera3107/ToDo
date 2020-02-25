@@ -1,4 +1,4 @@
-package ua.com.todo.todo;
+package ua.com.todo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

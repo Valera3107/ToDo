@@ -1,4 +1,4 @@
-package ua.com.todo.todo.model;
+package ua.com.todo.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;

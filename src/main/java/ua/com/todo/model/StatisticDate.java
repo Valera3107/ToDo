@@ -1,4 +1,4 @@
-package ua.com.todo.todo.model;
+package ua.com.todo.model;
 
 public enum StatisticDate {
   DAY, WEEK, MONTH, YEAR

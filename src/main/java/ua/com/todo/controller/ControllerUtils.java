@@ -1,4 +1,4 @@
-package ua.com.todo.todo.controller;
+package ua.com.todo.controller;
 
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;

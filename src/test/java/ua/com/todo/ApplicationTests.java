@@ -1,4 +1,4 @@
-package ua.com.todo.todo;
+package ua.com.todo;
 
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
-import ua.com.todo.todo.model.Status;
-import ua.com.todo.todo.model.Task;
-import ua.com.todo.todo.service.TaskService;
+import ua.com.todo.service.TaskService;
+import ua.com.todo.model.Status;
+import ua.com.todo.model.Task;
 
 import java.util.List;
 

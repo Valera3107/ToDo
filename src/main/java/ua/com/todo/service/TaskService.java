@@ -1,7 +1,7 @@
-package ua.com.todo.todo.service;
+package ua.com.todo.service;
 
 import org.springframework.stereotype.Repository;
-import ua.com.todo.todo.model.Task;
+import ua.com.todo.model.Task;
 
 import java.util.List;
 
