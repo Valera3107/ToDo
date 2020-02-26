@@ -4,11 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ua.com.todo.dto.Dto;
 import ua.com.todo.dto.TaskDto;
 import ua.com.todo.model.Task;
 import ua.com.todo.service.TaskService;
+import ua.com.todo.validation.interafaces.ValidTaskStatus;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -17,6 +19,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/task")
 @RequiredArgsConstructor
+@Validated
 public class TaskController {
 
   private final TaskService taskServiceImpl;
@@ -56,7 +59,7 @@ public class TaskController {
   }
 
   @PutMapping("/{id}/{status}")
-  public ResponseEntity<TaskDto> changeStatus(@PathVariable Long id, @PathVariable @Valid String status) {
+  public ResponseEntity<TaskDto> changeStatus(@PathVariable Long id, @ValidTaskStatus @PathVariable String status) {
     return ResponseEntity.ok(convertToDto(taskServiceImpl.changeStatus(id, status)));
   }
 

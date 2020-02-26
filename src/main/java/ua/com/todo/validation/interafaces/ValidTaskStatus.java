@@ -1,4 +1,4 @@
-package ua.com.todo.validation.interafaced;
+package ua.com.todo.validation.interafaces;
 
 import ua.com.todo.validation.impl.TaskStatusValidator;
 
