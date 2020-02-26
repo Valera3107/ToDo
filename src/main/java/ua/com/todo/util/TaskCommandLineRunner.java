@@ -1,13 +1,13 @@
 package ua.com.todo.util;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import ua.com.todo.model.Task;
 import ua.com.todo.service.TaskService;
 
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class TaskCommandLineRunner implements CommandLineRunner {
 
   private final TaskService taskService;

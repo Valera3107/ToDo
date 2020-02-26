@@ -1,15 +1,15 @@
 package ua.com.todo.service;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import ua.com.todo.model.Task;
 
 import java.util.List;
 
-@Repository
+@Service
 public interface TaskService extends CommonService<Task, Long> {
-  void changeStatus(Long id, String status);
+  Task changeStatus(Long id, String status);
 
   List<Task> getByName(String name);
 
-  List<Task> getStatistic(String date, String num);
+  List<Task> getStatistic(String date, int num);
 }

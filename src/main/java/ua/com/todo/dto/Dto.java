@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TaskCreateDto {
+public class Dto {
   @Size(min = 2, max = 50, message = "Name must be between 3 and 50 characters!")
   private String name;
 

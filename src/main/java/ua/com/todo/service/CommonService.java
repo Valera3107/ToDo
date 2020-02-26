@@ -1,14 +1,14 @@
 package ua.com.todo.service;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Repository
+@Service
 public interface CommonService<T, I> {
   T save(T object);
 
-  List<T> update(T object, I id);
+  T update(T object, I id);
 
   void delete(Long id);
 

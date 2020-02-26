@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 @RequiredArgsConstructor
+@NoArgsConstructor
 public class TaskDto {
 
   @Null
