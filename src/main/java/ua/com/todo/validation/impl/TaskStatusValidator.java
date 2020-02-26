@@ -13,7 +13,7 @@ public class TaskStatusValidator implements ConstraintValidator<ValidTaskStatus,
   @Override
   public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
     try {
-      Status.valueOf(s);
+      Status.valueOf(s.toUpperCase());
       return true;
     } catch (IllegalArgumentException ex) {
       return false;

@@ -62,11 +62,13 @@ public class TaskServiceImpl implements TaskService {
   public Task changeStatus(Long id, String status) {
     Status newStatus = Status.valueOf(status.toUpperCase());
     Task task = getById(id);
-    task.setStatus(newStatus);
-    if (Status.FINISHED.equals(task.getStatus())) {
-      task.setFinishTask(LocalDateTime.now());
+    if (!task.getStatus().equals(Status.FINISHED)) {
+      task.setStatus(newStatus);
+      if (Status.FINISHED.equals(task.getStatus())) {
+        task.setFinishTask(LocalDateTime.now());
+      }
+      taskRepository.save(task);
     }
-    taskRepository.save(task);
     return task;
   }
 

@@ -3,6 +3,7 @@ package ua.com.todo.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
+import ua.com.todo.model.Status;
 
 import javax.persistence.Column;
 import javax.validation.constraints.Max;
@@ -32,6 +33,9 @@ public class TaskDto {
   @Min(value = 1, message = "Importance field must be between 1 and 10!")
   @Max(value = 10, message = "Importance field must be between 1 and 10!")
   private Integer importance;
+
+  @Null
+  private Status status;
 
   @Column(updatable = false)
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
