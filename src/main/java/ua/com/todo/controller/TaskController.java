@@ -3,8 +3,6 @@ package ua.com.todo.controller;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ua.com.todo.dto.Dto;
 import ua.com.todo.dto.TaskDto;
@@ -19,54 +17,53 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/task")
 @RequiredArgsConstructor
-@Validated
 public class TaskController {
 
   private final TaskService taskServiceImpl;
   private final ModelMapper mapper;
 
   @GetMapping
-  public ResponseEntity<List<TaskDto>> list() {
-    return ResponseEntity.ok(taskServiceImpl.getAll().stream().map(this::convertToDto).collect(Collectors.toList()));
+  public List<TaskDto> list() {
+    return taskServiceImpl.getAll().stream().map(this::convertToDto).collect(Collectors.toList());
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<TaskDto> getTaskById(@PathVariable Long id) {
-    return ResponseEntity.ok(convertToDto(taskServiceImpl.getById(id)));
+  public TaskDto getTaskById(@PathVariable Long id) {
+    return convertToDto(taskServiceImpl.getById(id));
   }
 
   @GetMapping("/filter/{name}")
-  public ResponseEntity<List<TaskDto>> getTaskByName(@PathVariable("name") String name) {
-    return ResponseEntity.ok(taskServiceImpl.getByName(name).stream().map(this::convertToDto).collect(Collectors.toList()));
+  public List<TaskDto> getTaskByName(@PathVariable("name") String name) {
+    return taskServiceImpl.getByName(name).stream().map(this::convertToDto).collect(Collectors.toList());
   }
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  public ResponseEntity<List<TaskDto>> save(@RequestBody @Valid Dto taskDto) {
+  public List<TaskDto> save(@RequestBody @Valid Dto taskDto) {
     taskServiceImpl.save(convertToCreateEntity(taskDto));
-    return ResponseEntity.ok(taskServiceImpl.getAll().stream().map(this::convertToDto).collect(Collectors.toList()));
+    return taskServiceImpl.getAll().stream().map(this::convertToDto).collect(Collectors.toList());
   }
 
   @GetMapping("/statistic/{date}/{num}")
-  public ResponseEntity<List<TaskDto>> getStatistic(@PathVariable String date, @PathVariable Integer num) {
-    return ResponseEntity.ok(taskServiceImpl.getStatistic(date, num).stream().map(this::convertToDto).collect(Collectors.toList()));
+  public List<TaskDto> getStatistic(@PathVariable String date, @PathVariable Integer num) {
+    return taskServiceImpl.getStatistic(date, num).stream().map(this::convertToDto).collect(Collectors.toList());
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<TaskDto> update(@PathVariable Long id, @RequestBody @Valid Dto taskDto) {
+  public TaskDto update(@PathVariable Long id, @RequestBody @Valid Dto taskDto) {
     Task task = convertToCreateEntity(taskDto);
-    return ResponseEntity.ok(convertToDto(taskServiceImpl.update(task, id)));
+    return convertToDto(taskServiceImpl.update(task, id));
   }
 
   @PutMapping("/{id}/{status}")
-  public ResponseEntity<TaskDto> changeStatus(@PathVariable Long id, @ValidTaskStatus @PathVariable String status) {
-    return ResponseEntity.ok(convertToDto(taskServiceImpl.changeStatus(id, status)));
+  public TaskDto changeStatus(@PathVariable Long id, @ValidTaskStatus @PathVariable String status) {
+    return convertToDto(taskServiceImpl.changeStatus(id, status));
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<List<TaskDto>> delete(@PathVariable Long id) {
+  public List<TaskDto> delete(@PathVariable Long id) {
     taskServiceImpl.delete(id);
-    return ResponseEntity.ok(taskServiceImpl.getAll().stream().map(this::convertToDto).collect(Collectors.toList()));
+    return taskServiceImpl.getAll().stream().map(this::convertToDto).collect(Collectors.toList());
   }
 
   private TaskDto convertToDto(Task task) {

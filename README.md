@@ -34,3 +34,13 @@ One way is to execute the main method in the ua.com.todo.Application class from 
 Alternatively you can use the Spring Boot Maven plugin like so:
 
 mvn spring-boot:run
+
+
+kubectl create -f deployment/secrets.yaml
+kubectl create -f deployment/mysql-deployment.yaml
+kubectl create -f deployment/spring-deployment.yaml
+
+
+kubectl delete -f deployment/spring-deployment.yaml
+kubectl delete -f deployment/mysql-deployment.yaml
+kubectl delete -f deployment/secrets.yaml
