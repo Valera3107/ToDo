@@ -1,6 +1,8 @@
 package ua.com.todo.service;
 
 import org.springframework.stereotype.Service;
+import ua.com.todo.model.StatisticDate;
+import ua.com.todo.model.Status;
 import ua.com.todo.model.Task;
 
 import java.util.List;
@@ -17,11 +19,11 @@ public interface TaskService extends CommonService<Task, Long> {
 
   /**
    * Change the status of the {@link Task} task.
-   * @param status Task status
    * @param id Task id
+   * @param status Task status
    * @return loaded Task or return null
    */
-  Task changeStatus(Long id, String status);
+  Task changeStatus(Long id, Status status);
 
   /**
    * Get the list of the {@link Task} tasks.
@@ -36,5 +38,5 @@ public interface TaskService extends CommonService<Task, Long> {
    * @param num number of the date
    * @return list of the tasks or null
    */
-  List<Task> getStatistic(String date, int num);
+  List<Task> getStatistic(StatisticDate date, int num);
 }

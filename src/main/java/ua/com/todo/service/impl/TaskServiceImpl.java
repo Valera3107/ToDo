@@ -11,6 +11,7 @@ import ua.com.todo.service.TaskService;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -59,11 +60,10 @@ public class TaskServiceImpl implements TaskService {
   }
 
   @Override
-  public Task changeStatus(Long id, String status) {
-    Status newStatus = Status.valueOf(status.toUpperCase());
+  public Task changeStatus(Long id, Status status) {
     Task task = getById(id);
     if (!task.getStatus().equals(Status.FINISHED)) {
-      task.setStatus(newStatus);
+      task.setStatus(status);
       if (Status.FINISHED.equals(task.getStatus())) {
         task.setFinishTask(LocalDateTime.now());
       }
@@ -73,23 +73,26 @@ public class TaskServiceImpl implements TaskService {
   }
 
   @Override
-  public List<Task> getStatistic(String date, int num) {
-    StatisticDate statisticDate = StatisticDate.valueOf(date.toUpperCase());
-    switch (statisticDate) {
+  public List<Task> getStatistic(StatisticDate date, int num) {
+    switch (date) {
       case DAY:
         LocalDateTime minusDays = LocalDateTime.now().minusDays(num);
-        return taskRepository.findAll().stream().filter(e -> e.getFinishTask() != null).filter(e -> minusDays.compareTo(e.getFinishTask()) < 0).collect(Collectors.toList());
+        return getResultTasks(minusDays);
       case WEEK:
         LocalDateTime minusWeeks = LocalDateTime.now().minusWeeks(num);
-        return taskRepository.findAll().stream().filter(e -> e.getFinishTask() != null).filter(e -> minusWeeks.compareTo(e.getFinishTask()) < 0).collect(Collectors.toList());
+        return getResultTasks(minusWeeks);
       case MONTH:
         LocalDateTime minusMonths = LocalDateTime.now().minusMonths(num);
-        return taskRepository.findAll().stream().filter(e -> e.getFinishTask() != null).filter(e -> minusMonths.compareTo(e.getFinishTask()) < 0).collect(Collectors.toList());
+        return getResultTasks(minusMonths);
       case YEAR:
         LocalDateTime minusYears = LocalDateTime.now().minusYears(num);
-        return taskRepository.findAll().stream().filter(e -> e.getFinishTask() != null).filter(e -> minusYears.compareTo(e.getFinishTask()) < 0).collect(Collectors.toList());
+        return getResultTasks(minusYears);
       default:
         return Collections.emptyList();
     }
+  }
+
+  private List<Task> getResultTasks(LocalDateTime minusDays) {
+    return taskRepository.findAll().stream().filter(e -> Objects.nonNull(e.getFinishTask())).filter(e -> minusDays.compareTo(e.getFinishTask()) < 0).collect(Collectors.toList());
   }
 }
