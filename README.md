@@ -35,6 +35,11 @@ Alternatively you can use the Spring Boot Maven plugin like so:
 
 mvn spring-boot:run
 
+Also you can run this simple application via Docker-compose:
+
+docker-compose run
+
+Also you can run this simple application via kubernetes:
 
 kubectl create -f deployment/secrets.yaml
 kubectl create -f deployment/mysql-deployment.yaml
