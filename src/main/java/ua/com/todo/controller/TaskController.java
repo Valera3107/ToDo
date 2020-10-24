@@ -5,7 +5,12 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.com.todo.dto.Dto;
 import ua.com.todo.dto.TaskDto;
@@ -16,6 +21,8 @@ import ua.com.todo.service.TaskService;
 import ua.com.todo.validation.interafaces.ValidTaskStatus;
 
 import javax.validation.Valid;
+import java.io.ByteArrayInputStream;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +30,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/task")
 @RequiredArgsConstructor
 public class TaskController {
+  private static final String FILENAME = "report.xlsx";
 
   private final TaskService taskServiceImpl;
   private final ModelMapper mapper;
@@ -126,6 +134,25 @@ public class TaskController {
   public List<TaskDto> delete(@PathVariable Long id) {
     taskServiceImpl.delete(id);
     return taskServiceImpl.getAll().stream().map(this::convertToDto).collect(Collectors.toList());
+  }
+
+  @PostMapping(path = "/download-task-report")
+  @ApiOperation(value = "Download task report")
+  @ApiResponses(value = {
+          @ApiResponse(code = 200, message = "Successfully download task report"),
+          @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+          @ApiResponse(code = 403, message = "Access to the resource you've tried to reach is forbidden"),
+          @ApiResponse(code = 404, message = "The resource you've tried to reach was not found")
+  })
+  public ResponseEntity<Resource> downloadTaskReport(@RequestParam(required = false) LocalDateTime from,
+                                                     @RequestParam(required = false) LocalDateTime to) {
+
+    ByteArrayInputStream content = taskServiceImpl.loadTaskReport(from, to);
+    InputStreamResource file = new InputStreamResource(content);
+    return ResponseEntity.ok()
+            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + FILENAME)
+            .contentType(MediaType.parseMediaType("application/vnd.ms-excel"))
+            .body(file);
   }
 
   private TaskDto convertToDto(Task task) {

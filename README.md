@@ -37,7 +37,9 @@ mvn spring-boot:run
 
 Also you can run this simple application via Docker-compose:
 
-docker-compose run
+docker-compose up
+
+http://localhost:8080/swagger-ui.html#/
 
 Also you can run this simple application via kubernetes:
 
@@ -45,7 +47,12 @@ kubectl create -f deployment/secrets.yaml
 kubectl create -f deployment/mysql-deployment.yaml
 kubectl create -f deployment/spring-deployment.yaml
 
+http://localhost:31313/swagger-ui.html#/
 
 kubectl delete -f deployment/spring-deployment.yaml
 kubectl delete -f deployment/mysql-deployment.yaml
 kubectl delete -f deployment/secrets.yaml
+
+
+1) mvn clean install
+2) docker-compose up
